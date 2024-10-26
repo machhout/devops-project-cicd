@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import tn.esprit.tpfoyer.entity.Etudiant;
 import tn.esprit.tpfoyer.repository.EtudiantRepository;
@@ -24,17 +25,17 @@ class EtudiantServiceImplTest {
     @InjectMocks
     private EtudiantServiceImpl etudiantService; // Service under test
 
-    private Etudiant etudiant;
+    private Etudiant etudiant; // For test use
 
     @BeforeEach
     void setup() {
-        // Initialize a sample Etudiant object to use in tests
-        etudiant = new Etudiant("John", "Doe", 123456789L);
+        MockitoAnnotations.openMocks(this); // Initialize mocks
+        etudiant = new Etudiant("John", "Doe", 123456789L); // Initialize an Etudiant for tests
     }
 
     @Test
     void testRetrieveEtudiant() {
-        // Arrange: Set up mock behavior
+        // Arrange: Set up mock data
         when(etudiantRepository.findById(1L)).thenReturn(Optional.of(etudiant));
 
         // Act: Call the method under test
@@ -52,8 +53,10 @@ class EtudiantServiceImplTest {
 
     @Test
     void testAddEtudiant() {
-        // Act: Call the method under test
+        // Arrange: Set up mock behavior
         when(etudiantRepository.save(etudiant)).thenReturn(etudiant);
+
+        // Act: Call the method under test
         Etudiant result = etudiantService.addEtudiant(etudiant);
 
         // Assert: Verify the addition was successful
@@ -67,12 +70,14 @@ class EtudiantServiceImplTest {
 
     @Test
     void testRemoveEtudiant() {
-        Long etudiantId = 1L; // The ID of the Etudiant to remove
+        // Arrange: Mock the repository deleteById method
+        Long etudiantId = 1L;
+        doNothing().when(etudiantRepository).deleteById(etudiantId);
 
-        // Act: Call the method under test
+        // Act: Call the remove method in the service
         etudiantService.removeEtudiant(etudiantId);
 
         // Assert: Verify deleteById was called correctly
-        verify(etudiantRepository).deleteById(etudiantId);
+        verify(etudiantRepository, times(1)).deleteById(etudiantId);
     }
 }
