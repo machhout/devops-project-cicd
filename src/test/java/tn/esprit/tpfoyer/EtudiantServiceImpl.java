@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import tn.esprit.tpfoyer.entity.Etudiant;
 import tn.esprit.tpfoyer.repository.EtudiantRepository;
@@ -25,16 +24,18 @@ class EtudiantServiceImplTest {
     @InjectMocks
     private EtudiantServiceImpl etudiantService; // Service under test
 
+    private Etudiant etudiant;
+
     @BeforeEach
     void setup() {
-        MockitoAnnotations.openMocks(this); // Initialize mocks
+        // Initialize a sample Etudiant object to use in tests
+        etudiant = new Etudiant("John", "Doe", 123456789L);
     }
 
     @Test
     void testRetrieveEtudiant() {
-        // Arrange: Set up mock data
-        Etudiant etudiant = new Etudiant("John", "Doe", 123456789L);
-        when(etudiantRepository.findById(anyLong())).thenReturn(Optional.of(etudiant));
+        // Arrange: Set up mock behavior
+        when(etudiantRepository.findById(1L)).thenReturn(Optional.of(etudiant));
 
         // Act: Call the method under test
         Etudiant result = etudiantService.retrieveEtudiant(1L);
@@ -46,21 +47,18 @@ class EtudiantServiceImplTest {
         assertEquals(123456789L, result.getCinEtudiant());
 
         // Verify the repository interaction
-        verify(etudiantRepository).findById(anyLong());
+        verify(etudiantRepository).findById(1L);
     }
 
     @Test
     void testAddEtudiant() {
-        // Arrange: Set up mock behavior
-        Etudiant etudiant = new Etudiant("Jane", "Doe", 987654321L);
-        when(etudiantRepository.save(etudiant)).thenReturn(etudiant);
-
         // Act: Call the method under test
+        when(etudiantRepository.save(etudiant)).thenReturn(etudiant);
         Etudiant result = etudiantService.addEtudiant(etudiant);
 
         // Assert: Verify the addition was successful
         assertNotNull(result);
-        assertEquals("Jane", result.getNomEtudiant());
+        assertEquals("John", result.getNomEtudiant());
         assertEquals("Doe", result.getPrenomEtudiant());
 
         // Verify that save was called on the repository
@@ -69,14 +67,12 @@ class EtudiantServiceImplTest {
 
     @Test
     void testRemoveEtudiant() {
-        // Arrange: Mock the repository deleteById method
-        Long etudiantId = 1L;
-        doNothing().when(etudiantRepository).deleteById(etudiantId);
+        Long etudiantId = 1L; // The ID of the Etudiant to remove
 
-        // Act: Call the remove method in the service
+        // Act: Call the method under test
         etudiantService.removeEtudiant(etudiantId);
 
         // Assert: Verify deleteById was called correctly
-        verify(etudiantRepository, times(1)).deleteById(etudiantId);
+        verify(etudiantRepository).deleteById(etudiantId);
     }
 }
