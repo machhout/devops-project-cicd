@@ -93,6 +93,29 @@
                     </excludes>
                 </configuration>
             </plugin>
+                 
+                     <plugin>
+      <groupId>io.openapitools.swagger</groupId>
+      <artifactId>swagger-maven-plugin</artifactId>
+      <configuration>
+        <resourcePackages>
+          <resourcePackage>io.openapitools.swagger.example</resourcePackage>
+          <resourcePackage>io.openapitools.swagger.example.alternate</resourcePackage>
+        </resourcePackages>
+        <outputDirectory>${basedir}/target/</outputDirectory>
+        <outputFilename>swagger</outputFilename>
+        <outputFormats>JSON,YAML</outputFormats>
+        <prettyPrint>true</prettyPrint>
+      </configuration>
+      <executions>
+        <execution>
+          <goals>
+            <goal>generate</goal>
+          </goals>
+        </execution>
+      </executions>
+    </plugin>
+                 
         </plugins>
     </build>
 
