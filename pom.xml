@@ -22,6 +22,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
+  <dependency>
+        <groupId>io.springfox</groupId>
+        <artifactId>springfox-boot-starter</artifactId>
+        <version>3.0.0</version>
+    </dependency>
+
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
@@ -93,29 +99,6 @@
                     </excludes>
                 </configuration>
             </plugin>
-                 
-                     <plugin>
-      <groupId>io.openapitools.swagger</groupId>
-      <artifactId>swagger-maven-plugin</artifactId>
-      <configuration>
-        <resourcePackages>
-          <resourcePackage>io.openapitools.swagger.example</resourcePackage>
-          <resourcePackage>io.openapitools.swagger.example.alternate</resourcePackage>
-        </resourcePackages>
-        <outputDirectory>${basedir}/target/</outputDirectory>
-        <outputFilename>swagger</outputFilename>
-        <outputFormats>JSON,YAML</outputFormats>
-        <prettyPrint>true</prettyPrint>
-      </configuration>
-      <executions>
-        <execution>
-          <goals>
-            <goal>generate</goal>
-          </goals>
-        </execution>
-      </executions>
-    </plugin>
-                 
         </plugins>
     </build>
 
