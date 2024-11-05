@@ -6,3 +6,12 @@ scrape_configs:
     metrics_path: '/actuator/prometheus'
     static_configs:
       - targets: ['backend:8087']  # Replace with your backend service name and port
+
+  - job_name: 'tpfoyer-devops-service'
+    scheme: 'http'
+    metrics_path: '/tpfoyer/actuator/prometheus'
+    static_configs: # List of static targets for Prometheus to scrape. This is the simplest form of service discovery.
+    - targets:
+      - '192.168.50.4:8087'
+      labels:
+        group: 'tpfoyer-API'
