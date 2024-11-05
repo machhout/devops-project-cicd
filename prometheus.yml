@@ -2,15 +2,14 @@ global:
   scrape_interval: 15s
 
 scrape_configs:
-  - job_name: 'spring-boot'
-    metrics_path: '/actuator/prometheus'
+  - job_name: 'prometheus-service'
     static_configs:
-      - targets: ['backend:8087']  # Replace with your backend service name and port
+      - targets: ['192.168.50.4:9090']  
 
   - job_name: 'tpfoyer-devops-service'
     scheme: 'http'
     metrics_path: '/tpfoyer/actuator/prometheus'
-    static_configs: # List of static targets for Prometheus to scrape. This is the simplest form of service discovery.
+    static_configs: 
     - targets:
       - '192.168.50.4:8087'
       labels:
