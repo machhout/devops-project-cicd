@@ -112,40 +112,19 @@
             </configuration>
         </plugin>
 
-        <!-- JaCoCo plugin for code coverage -->
-        <plugin>
-            <groupId>org.jacoco</groupId>
-            <artifactId>jacoco-maven-plugin</artifactId>
-            <version>0.8.8</version>
-            <executions>
-                <!-- Ensure unique execution IDs for each phase -->
-                <execution>
-                    <id>prepare-agent</id> <!-- Unique ID for prepare-agent -->
-                    <goals>
-                        <goal>prepare-agent</goal>
-                    </goals>
-                    <phase>test</phase> <!-- Should be activated during the test phase -->
-                </execution>
-
-                <!-- Another unique ID for the report phase -->
-                <execution>
-                    <id>generate-report</id> <!-- Unique ID for report generation -->
-                    <goals>
-                        <goal>report</goal>
-                    </goals>
-                    <phase>verify</phase> <!-- Should be activated after tests -->
-                </execution>
-
-                <!-- Optional: Configure JaCoCo to also run checks during verify phase -->
-                <execution>
-                    <id>check-coverage</id> <!-- Unique ID for check goal -->
-                    <goals>
-                        <goal>check</goal>
-                    </goals>
-                    <phase>verify</phase>
-                </execution>
-            </executions>
-        </plugin>
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <!-- select non-aggregate reports -->
+              <report>report</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+             
     </plugins>
 </build>
 
