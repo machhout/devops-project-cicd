@@ -35,8 +35,11 @@ services:
     image: grafana/grafana
     ports:
       - "3000:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana  # Mount volume to persist data
     depends_on:
       - prometheus
       
 volumes:
   db_data:
+  grafana_data:
