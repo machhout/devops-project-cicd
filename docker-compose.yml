@@ -16,12 +16,13 @@ services:
     image: mysql:8.0
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: java_project_db # Replace with your desired database name
+      MYSQL_DATABASE: java_project_db 
     ports:
       - "3306:3306"
     volumes:
       - db_data:/var/lib/mysql
       
+#---------Promeheus----------------------------   
   prometheus:
     image: prom/prometheus
     ports:
@@ -30,7 +31,22 @@ services:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
     depends_on:
       - backend
-
+#---------AlertManager-------------------------
+  alertmanager:
+    image: prom/alertmanager:v0.26.0
+    container_name: alertmanager
+    volumes:
+      #- ./alertmanager/alertmanager.yml:/etc/alertmanager/alertmanager.yml
+      - ./alertmanager:/etc/alertmanager
+    command:
+      - "--config.file=/etc/alertmanager/alertmanager.yml"
+      - "--storage.path=/alertmanager"
+    ports:
+      - "9093:9093"
+    networks:
+      - monitoring
+    restart: unless-stopped
+#---------Grafana--------
   grafana:
     image: grafana/grafana
     ports:
@@ -39,7 +55,7 @@ services:
       - grafana_data:/var/lib/grafana  # Mount volume to persist data
     depends_on:
       - prometheus
-      
+  #-------------Docker volumes -----------------------------------   
 volumes:
   db_data:
   grafana_data:
