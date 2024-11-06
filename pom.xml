@@ -97,42 +97,55 @@
  </repository>
  </distributionManagement>
   
-         <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <excludes>
-                        <exclude>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                        </exclude>
-                    </excludes>
-                </configuration>
-            </plugin>
- <plugin>
+<build>
+    <plugins>
+        <plugin>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+            <configuration>
+                <excludes>
+                    <exclude>
+                        <groupId>org.projectlombok</groupId>
+                        <artifactId>lombok</artifactId>
+                    </exclude>
+                </excludes>
+            </configuration>
+        </plugin>
+
+        <!-- JaCoCo plugin for code coverage -->
+        <plugin>
             <groupId>org.jacoco</groupId>
             <artifactId>jacoco-maven-plugin</artifactId>
             <version>0.8.8</version>
             <executions>
+                <!-- Prepare agent to collect data during tests -->
                 <execution>
                     <goals>
-                        <goal>prepare-agent</goal> <!-- Ensures the agent is applied during tests -->
+                        <goal>prepare-agent</goal>
                     </goals>
-                    <phase>test</phase> <!-- Should run during the 'test' phase -->
+                    <phase>test</phase> <!-- Ensures it's activated during the test phase -->
                 </execution>
+
+                <!-- Generate coverage report after tests -->
                 <execution>
                     <goals>
-                        <goal>report</goal> <!-- Generates the report after the tests -->
+                        <goal>report</goal>
                     </goals>
                     <phase>verify</phase> <!-- Ensures this happens after the tests -->
                 </execution>
+
+                <!-- Optional: You can configure JaCoCo to also produce the XML report for SonarQube -->
+                <execution>
+                    <goals>
+                        <goal>check</goal> <!-- Ensures this goal runs during the check phase -->
+                    </goals>
+                    <phase>verify</phase>
+                </execution>
             </executions>
         </plugin>
-        
-        
-        </plugins>
-    </build>
+
+    </plugins>
+</build>
+
 
 </project>
