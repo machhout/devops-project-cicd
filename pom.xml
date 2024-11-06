@@ -118,32 +118,34 @@
             <artifactId>jacoco-maven-plugin</artifactId>
             <version>0.8.8</version>
             <executions>
-                <!-- Prepare agent to collect data during tests -->
+                <!-- Ensure unique execution IDs for each phase -->
                 <execution>
+                    <id>prepare-agent</id> <!-- Unique ID for prepare-agent -->
                     <goals>
                         <goal>prepare-agent</goal>
                     </goals>
-                    <phase>test</phase> <!-- Ensures it's activated during the test phase -->
+                    <phase>test</phase> <!-- Should be activated during the test phase -->
                 </execution>
 
-                <!-- Generate coverage report after tests -->
+                <!-- Another unique ID for the report phase -->
                 <execution>
+                    <id>generate-report</id> <!-- Unique ID for report generation -->
                     <goals>
                         <goal>report</goal>
                     </goals>
-                    <phase>verify</phase> <!-- Ensures this happens after the tests -->
+                    <phase>verify</phase> <!-- Should be activated after tests -->
                 </execution>
 
-                <!-- Optional: You can configure JaCoCo to also produce the XML report for SonarQube -->
+                <!-- Optional: Configure JaCoCo to also run checks during verify phase -->
                 <execution>
+                    <id>check-coverage</id> <!-- Unique ID for check goal -->
                     <goals>
-                        <goal>check</goal> <!-- Ensures this goal runs during the check phase -->
+                        <goal>check</goal>
                     </goals>
                     <phase>verify</phase>
                 </execution>
             </executions>
         </plugin>
-
     </plugins>
 </build>
 
