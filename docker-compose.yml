@@ -31,7 +31,12 @@ services:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
     depends_on:
       - backend
-#---------AlertManager-------------------------
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://192.168.50.4:9090/metrics"]
+      interval: 30s
+      retries: 3
+      start_period: 10s
+      timeout: 5s
 
 #---------Grafana--------
   grafana:
