@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   backend:
-    image: dammakrim/springbootapplication:latest  # Use the image you just pushed
+    image: emnamachhout/springbootapplication:latest  # Use the image you just pushed
     ports:
       - "8087:8087"
     environment:
